@@ -2,8 +2,8 @@
 3.Write a program to list duplicate files from hard drive
 ------------------------------------------------------------------------
 The aim of this assignment is to list all the duplicate files from the hard drive and give user option to remove them or merge them.
-
-Usage : python Duplicate.py folder_path
+Usage :
+python Duplicate.py folder_path
 '''
 import sys
 import os
@@ -11,7 +11,7 @@ import hashlib
 
 def compare(similar):
 	hashes=[]
-	
+
 	#checking hash values of first 20 characters of each file
 	#if the first 20 lines are not same then the files are definitely not duplicates
 	for file in similar:
@@ -21,7 +21,7 @@ def compare(similar):
 		h.update(line)
 		hashes.append(h.digest())
 		fo.close()
-	
+
 	#removing files that cannot be duplicates from the list of similar files
 	flag=0
 	for i in range(0, len(hashes)):
@@ -32,7 +32,7 @@ def compare(similar):
 			hashes.pop(i)
 			flag=1
 	hashes[:]=[]
-	
+
 	#checking hash values of the entire files that can be duplicates
 	for file in similar:
 		h = hashlib.sha1()
@@ -42,7 +42,7 @@ def compare(similar):
            		line=fo.read(1024)
            		h.update(line)
 		hashes.append(h.digest())
-	
+
 	#generating final list of duplicate files
 	flag=0
 	for i in range(0, len(hashes)):
@@ -53,7 +53,7 @@ def compare(similar):
 			hashes.pop(i)
 			flag=1
 	return similar
-#----------------------------------------------------------------	
+#----------------------------------------------------------------
 a=dict()
 duplicates=dict()
 
@@ -66,14 +66,14 @@ else:
 for root, dirs, files in os.walk(arg, topdown=True):
     for name in files:
         name= root+"/"+name
-	
+
 	similar=[]
 	statinfo = os.stat(name)
         size=statinfo.st_size
 	a.setdefault(size, [])
 	a[size].append(name)					#grouping files according to their sizes
 	similar=a.get(size)					#files having same size have the posibility of being duplicates
-	
+
 	if(len(similar)>1):
 		dup=[]
 		dup=compare(similar)				#obtaining list of duplicate files from list of same sized files
@@ -81,7 +81,7 @@ for root, dirs, files in os.walk(arg, topdown=True):
 			duplicates.setdefault(size, [])
 			if( item not in duplicates[size]):
 				duplicates[size].append(item)	#grouping duplicates by size
-print 
+print
 print
 print "Sets of duplicates are:"
 for key in duplicates.keys():
